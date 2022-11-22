@@ -38,10 +38,54 @@ function getPlayerChoice() {
     return playerSelection;
 }
 
-// TODO:
-function playRound(playerSelection, computerSelection) {
-    return;
+// Calls a round of RPS and returns winner
+function playRound(computerSelection, playerSelection) {
+    
+    if (computerSelection == playerSelection){
+        return "Tie!"
+    }
+
+    else if (computerSelection == "Rock") {
+        if (playerSelection == "Paper") {
+            return "Paper beats rock, Player wins!"
+        }
+        else {
+            return "Rock beats scissors, Computer wins!"
+        }
+    }
+
+    else if (computerSelection == "Paper") {
+        if (playerSelection == "Rock") {
+            return "Paper beats rock, Computer wins!"
+        }
+        else {
+            return "Scissors beats paper, Player wins!"
+        }
+    }
+
+    else if (computerSelection == "Scissors"){
+        if (playerSelection == "Paper"){
+            return "Scissors beat paper, Computer wins!"
+        }
+        else {
+            return "Rock beats scissors, Computer wins!"
+        }
+    }
+
+    return 1;
  }
 
+// Plays specified number of rounds of RPS and logs winner of each round
 
-console.log(getPlayerChoice());
+function game(rounds) {
+    for (let i = 0; i < rounds; i++) {
+        computerSelection = getComputerChoice();
+        playerSelection = getPlayerChoice();
+        console.log("Round " + (i + 1) + ": " + playRound(computerSelection, playerSelection));
+    }
+}
+
+// Prompts user for rounds
+let rounds = parseInt(prompt("Input number of rounds to play"));
+
+game(rounds);
