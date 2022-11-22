@@ -76,12 +76,9 @@ function playRound(computerSelection, playerSelection) {
  }
 
 // Plays specified number of rounds of RPS and logs winner of each round
-
 function game(rounds) {
     for (let i = 0; i < rounds; i++) {
-        computerSelection = getComputerChoice();
-        playerSelection = getPlayerChoice();
-        console.log("Round " + (i + 1) + ": " + playRound(computerSelection, playerSelection));
+        console.log("Round " + (i + 1) + ": " + playRound(getComputerChoice(), getPlayerChoice()));
     }
 }
 
