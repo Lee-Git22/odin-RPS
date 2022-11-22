@@ -14,8 +14,28 @@ function getComputerChoice() {
         computerSelection = "Scissors";
     }
 
-    console.log(computerSelection);
     return computerSelection;
+}
+
+// Prompts user to select move for RPS
+function getPlayerChoice() {
+    // Prompts user for RPS choice
+    let playerSelection = prompt("Choose Rock, Paper, or Scissors");
+
+    // Standardize case insensitive input 
+    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
+    
+    // Return valid choices
+    if (playerSelection == "Rock" || playerSelection == "Paper" || playerSelection == "Scissors") {
+        return playerSelection;
+    }
+    
+    // Reselect if invalid
+    else {
+        playerSelection = getPlayerChoice();
+    }
+
+    return playerSelection;
 }
 
 // TODO:
@@ -24,5 +44,4 @@ function playRound(playerSelection, computerSelection) {
  }
 
 
-getComputerChoice();
-
+console.log(getPlayerChoice());
