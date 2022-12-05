@@ -39,49 +39,55 @@ function getPlayerChoice() {
 }
 
 // Calls a round of RPS and returns winner
-function playRound(computerSelection, playerSelection) {
-    
+function playRound(computerSelection, playerSelection, winner) {
+    winner = "Tie!"
     if (computerSelection == playerSelection){
-        return "Tie!"
+        return ["Tie!", winner];
     }
 
     else if (computerSelection == "Rock") {
         if (playerSelection == "Paper") {
-            return "Paper beats rock, Player wins!"
+            winner = "Player";
+            return ["Player chooses: Rock, Computer chooses: Paper, Player wins!", winner];
         }
         else {
-            return "Rock beats scissors, Computer wins!"
+            winner = "Computer"
+            return ["Player chooses: Scissors, Computer Chooses: Rock, Computer wins!", winner];
         }
     }
 
     else if (computerSelection == "Paper") {
         if (playerSelection == "Rock") {
-            return "Paper beats rock, Computer wins!"
+            winner = "Computer";
+            return ["Player chooses: Rock, Computer Chooses: Paper, Computer wins!", winner];
         }
         else {
-            return "Scissors beats paper, Player wins!"
+            winner = "Player"
+            return ["Player chooses: Scissors, Computer chooses: Paper, Player wins!", winner];
         }
     }
 
     else if (computerSelection == "Scissors"){
         if (playerSelection == "Paper"){
-            return "Scissors beat paper, Computer wins!"
+            winner = "Computer";
+            return ["Player chooses: Paper, Computer chooses: Scissors, Computer wins!", winner];
         }
         else {
-            return "Rock beats scissors, Computer wins!"
+            winner = "Player";
+            return ["Player chooses: Rock, Computer chooses: Scissors, Player wins!", winner];
         }
     }
 
-    return 1;
+    return "Error";
  }
 
 // Plays a round and update score
 function game(rounds) {
-    console.log("Round " + (rounds) + ": " + playRound(getComputerChoice(), playerSelection));
+    let roundResult = playRound(getComputerChoice(), playerSelection);
+    let winnerMessage = roundResult[0];
+    let winner = roundResult[1];
+    return [("Round " + (rounds) + ": " + winnerMessage), winner];
 }
-
-// Prompts user for rounds
-//let rounds = parseInt(prompt("Input number of rounds to play"));
 
 // TODO: Create 1 button for each choice and add event listener
 const selection = document.querySelector(".selection");
@@ -110,19 +116,54 @@ selection.appendChild(paper);
 selection.appendChild(scissors);
 
 let rounds = 0;
+let playerScore = 0;
+let computerScore = 0;
+
+const winnerDiv = document.createElement("h3");
+
 // Selects buttons and plays game on click
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
-        //alert("Hello, world")
+        
+        // Set playerSelection to whichever button they pick and update round count
         playerSelection = button.id;
         rounds += 1;
-        game(rounds);
+
+        // Play a game
+        let gameResult = game(rounds);
+
+        // Create results and display
+        const results = document.createElement("div");
+        const score = document.querySelector(".score");
+        results.textContent = gameResult[0];
+        score.appendChild(results);
+
+        // Updates scores
+        if (gameResult[1] == "Computer"){
+            computerScore += 1;
+        }
+        else if (gameResult[1] == "Player"){
+            playerScore += 1;
+        }
+        const currentScore = document.createElement("h5");
+        currentScore.textContent = "The score is now: Player: " + playerScore + " Computer: " + computerScore;
+        score.appendChild(currentScore);
+
+        // When either reachs 5 points, Declare winner and reset game
+        if (playerScore >= 5 || computerScore >= 5) {
+            if (playerScore >= 5) {
+                winnerDiv.textContent = "Player has 5 points!, Player Wins!"
+                score.appendChild(winnerDiv);
+            }
+            else {
+                winnerDiv.textContent = "Computer has 5 points!, Computer Wins!"
+                score.appendChild(winnerDiv);
+            }
+            playerScore = 0;
+            computerScore = 0;
+            rounds = 0;
+        }
+                
     });
 });
-
-// TODO: Add divs for displaying results for all console.logs
-
-// TODO: Declare winner once a player reachs 5 points
-
-//game(rounds);
