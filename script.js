@@ -75,14 +75,54 @@ function playRound(computerSelection, playerSelection) {
     return 1;
  }
 
-// Plays specified number of rounds of RPS and logs winner of each round
+// Plays a round and update score
 function game(rounds) {
-    for (let i = 0; i < rounds; i++) {
-        console.log("Round " + (i + 1) + ": " + playRound(getComputerChoice(), getPlayerChoice()));
-    }
+    console.log("Round " + (rounds) + ": " + playRound(getComputerChoice(), playerSelection));
 }
 
 // Prompts user for rounds
-let rounds = parseInt(prompt("Input number of rounds to play"));
+//let rounds = parseInt(prompt("Input number of rounds to play"));
 
-game(rounds);
+// TODO: Create 1 button for each choice and add event listener
+const selection = document.querySelector(".selection");
+selection.textContent = "Click a button to choose your input";
+
+// Separates buttons and Prompt
+const lineBreak = document.createElement("br");
+selection.appendChild(lineBreak);
+
+// Creates buttons and add to DOM
+const rock = document.createElement("button");
+rock.setAttribute("id", "Rock");
+rock.textContent = "Rock";
+
+const paper = document.createElement("button");
+paper.setAttribute("id", "Paper");
+paper.textContent = "Paper";
+paper.style.margin = "8px";
+
+const scissors = document.createElement("button");
+scissors.setAttribute("id", "Scissors");
+scissors.textContent = "Scissors";
+
+selection.appendChild(rock);
+selection.appendChild(paper);
+selection.appendChild(scissors);
+
+let rounds = 0;
+// Selects buttons and plays game on click
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        //alert("Hello, world")
+        playerSelection = button.id;
+        rounds += 1;
+        game(rounds);
+    });
+});
+
+// TODO: Add divs for displaying results for all console.logs
+
+// TODO: Declare winner once a player reachs 5 points
+
+//game(rounds);
